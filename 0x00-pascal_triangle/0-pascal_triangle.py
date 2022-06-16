@@ -11,4 +11,13 @@ def factorial(n):
     return n * factorial(n - 1)
 
 
+def pascal_triangle(n):
+    """evaluate and return pascal triangle"""
+    if n <= 0:
+        return []
+    pascal = []
+    for num in range(n):
+        value = [int(factorial(num) / (factorial(num - num1) * factorial(num1))) for num1 in range(num+1)]
+        pascal.append(value)
 
+    return pascal
