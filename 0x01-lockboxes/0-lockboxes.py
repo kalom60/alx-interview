@@ -10,6 +10,7 @@ def canUnlockAll(boxes):
     while keys:
         box = keys.pop()
         unlocked.add(box)
-        [keys.append(key) for key in boxes[box] if key not in unlocked]
+        [keys.append(key) for key in boxes[box]
+            if key not in unlockeda nd key < len(boxes)]
 
     return len(boxes) == len(unlocked)
