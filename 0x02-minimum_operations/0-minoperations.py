@@ -9,7 +9,7 @@ def minOperations(n):
     cp = 0
     h = [x for x in range(1, n) if n % x == 0]
     hcls = [max(h)]
-    if hcls == 0:
+    if hcls == 1:
         return 0
 
     while True:
