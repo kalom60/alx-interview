@@ -1,19 +1,17 @@
 #!/usr/bin/python3
 """Minimum Operations"""
 
-from typing import List
 
-
-def minOperations(n: int) -> int:
+def minOperations(n):
     """
     return the min operation that takes to write h n times
     """
-    cp: int = 0
-    h: List[int] = [x for x in range(1, n) if n % x == 0]
-    hcls: List[int] = [max(h)]
+    cp = 0
+    h = [x for x in range(1, n) if n % x == 0]
+    hcls = [max(h)]
     while True:
         if hcls[-1] != 1:
-            hcl: int = max(x for x in range(1, hcls[-1]) if hcls[-1] % x == 0)
+            hcl = max(x for x in range(1, hcls[-1]) if hcls[-1] % x == 0)
             hcls.append(hcl)
         else:
             break
