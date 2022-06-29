@@ -17,4 +17,7 @@ def minOperations(n):
             h += last * 'H'
             cp += 1
 
-    return cp
+    if cp == n:
+        return 0
+    else:
+        return cp
