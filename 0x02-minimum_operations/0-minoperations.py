@@ -7,6 +7,9 @@ def minOperations(n):
     return the min operation that takes to write h n times
     """
 
+    if not isinstance(n, int):
+        return 0
+
     cp = last = 0
     h = 'H'
     while len(h) < n:
