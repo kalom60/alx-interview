@@ -6,6 +6,9 @@ def minOperations(n):
     """
     return the min operation that takes to write h n times
     """
+    if type(n) is not int:
+        return 0
+
     cp = last = 0
     h = 'H'
     while len(h) < n:
@@ -17,7 +20,4 @@ def minOperations(n):
             h += last * 'H'
             cp += 1
 
-    if cp == n:
-        return 0
-    else:
-        return cp
+    return cp
