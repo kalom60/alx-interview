@@ -11,14 +11,15 @@ def minOperations(n):
         return 0
 
     cp = last = 0
-    h = 'H'
-    while len(h) < n:
-        if n % len(h) == 0:
-            last = len(h)
-            h = h * 2
+    h = 1
+    while h < n:
+        rest = n - h
+        if rest % h == 0:
+            last = h
+            h += last
             cp += 2
         else:
-            h += last * 'H'
+            h += last
             cp += 1
 
     return cp
