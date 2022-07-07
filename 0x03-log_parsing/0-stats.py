@@ -30,9 +30,9 @@ if __name__ == "__main__":
             return 0
 
     def print_stats():
-        """display the stat"""
+        """display the stats"""
         print("File size: {}".format(file_size))
-        for key in status_code:
+        for key in sorted(status_code.keys()):
             if status_code[key]:
                 print("{}: {}".format(key, status_code[key]))
 
