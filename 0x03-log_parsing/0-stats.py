@@ -43,7 +43,6 @@ try:
             file_size += int(size)
             on_ten += 1
 except KeyboardInterrupt:
-    print(f'File size: {file_size}')
-    for k, v in status_code.items():
-        if v:
-            print(f'{k}: {v}')
+    display_metrics()
+else:
+    display_metrics()
