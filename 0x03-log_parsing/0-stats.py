@@ -25,12 +25,6 @@ def display_metrics():
             print(f'{k}: {v}')
 
 
-def handler(sig, frame):
-    """CTRL + C handler"""
-    display_metrics()
-    sys.exit(1)
-
-
 try:
     for lines in sys.stdin:
         line = lines.split(' ')
@@ -49,4 +43,7 @@ try:
             file_size += int(size)
             on_ten += 1
 except KeyboardInterrupt:
-    handler()
+    print(f'File size: {file_size}')
+    for k, v in status_code.items():
+        if v:
+            print(f'{k}: {v}')
