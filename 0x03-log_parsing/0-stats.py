@@ -38,11 +38,13 @@ try:
             if on_ten == 10:
                 display_metrics()
                 on_ten = 0
-
             status_code[code] += 1
             file_size += int(size)
             on_ten += 1
+        else:
+            continue
 except KeyboardInterrupt:
     display_metrics()
+    sys.exit(1)
 else:
     display_metrics()
