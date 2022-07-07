@@ -15,6 +15,11 @@ status_code = {
     '405': 0,
     '500': 0,
 }
+
+checker = {
+    'method': '"GET /projects/260 HTTP/1.1"',
+}
+
 file_size = 0
 on_ten = 0
 
@@ -43,23 +48,18 @@ try:
         dates = line[2][1:] + line[3][:-1]
         dates = datetime.strptime(dates, "%Y-%m-%d%H:%M:%S.%f")
         minus = line[1]
-        method = line[4][1:]
-        path = line[5]
-        http = line[6][:-1]
+        method = line[4] + ' ' + line[5] + ' ' + line[6]
         code = line[7]
         size = line[-1].split('\\')[0]
         if minus == '-' and code in status_code and \
-                http == 'HTTP/1.1' and method == 'GET' and \
-                    check_ip(ip) and isinstance(dates, datetime) \
-                        and path == '/projects/260':
+                method == checker['method'] and check_ip(ip) \
+                    and isinstance(dates, datetime):
             if on_ten == 10:
                 display_metrics()
                 on_ten = 0
             status_code[code] += 1
             file_size += int(size)
             on_ten += 1
-        else:
-            print(ip, dates, minus, method, path, http, code, size)
 except KeyboardInterrupt:
     display_metrics()
     sys.exit(1)
