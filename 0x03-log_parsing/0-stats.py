@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """a script that reads stdin line by line and computes metrics"""
 import sys
-from signal import signal, SIGINT
 
 
 status_code = {
@@ -32,21 +31,22 @@ def handler(sig, frame):
     sys.exit(1)
 
 
-signal(SIGINT, handler)
+try:
+    for lines in sys.stdin:
+        line = lines.split(' ')
+        minus = line[1]
+        method = line[4][1:]
+        http = line[6].split('/')[0]
+        code = line[7]
+        size = line[-1].split('\\')[0]
+        if minus == '-' and code in status_code and \
+                http == 'HTTP' and method == 'GET':
+            if on_ten == 10:
+                display_metrics()
+                on_ten = 0
 
-for lines in sys.stdin:
-    line = lines.split(' ')
-    minus = line[1]
-    method = line[4][1:]
-    http = line[6].split('/')[0]
-    code = line[7]
-    size = line[-1].split('\\')[0]
-    if minus == '-' and code in status_code and \
-            http == 'HTTP' and method == 'GET':
-        if on_ten == 10:
-            display_metrics()
-            on_ten = 0
-
-        status_code[code] += 1
-        file_size += int(size)
-        on_ten += 1
+            status_code[code] += 1
+            file_size += int(size)
+            on_ten += 1
+except KeyboardInterrupt:
+    handler()
