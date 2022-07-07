@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-""""""
+"""a script that reads stdin line by line and computes metrics"""
 import sys
-import re
 from signal import signal, SIGINT
 
 
@@ -16,73 +15,11 @@ status_code = {
     '500': 0,
 }
 file_size = 0
-line = None
-check = None
 on_ten = 0
 
 
-def ip(ip):
-    pattern = r"^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.)"\
-        r"{3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
-    if (re.search(pattern, ip)):
-        return True
-    return False
-
-
-def minus(sign):
-    if sign == '-':
-        return True
-    return False
-
-
-def date(date):
-    date = date[1:]
-    matched = re.match(r'\d\d\d\d-\d\d-\d\d', date)
-    if matched:
-        return True
-    return False
-
-
-def time(time):
-    matched = re.match(r'\d\d:\d\d:\d\d', time)
-    if matched:
-        return True
-    return False
-
-
-def method(method):
-    method = method[1:]
-    if method == 'GET':
-        return True
-    return False
-
-
-def file(path):
-    if path == '/projects/260':
-        return True
-    return False
-
-
-def http(http):
-    http = http[:-1]
-    if http == 'HTTP/1.1':
-        return True
-    return False
-
-
-def code(code):
-    if code in status_code:
-        return True
-    return False
-
-
-def size(size):
-    if int(size) > 0:
-        return True
-    return False
-
-
-def line_check():
+def display_metrics():
+    """display the metrics"""
     print(f'File size: {file_size}')
     for k, v in status_code.items():
         if v:
@@ -90,41 +27,26 @@ def line_check():
 
 
 def handler(sig, frame):
-    line_check()
+    """CTRL + C handler"""
+    display_metrics()
     sys.exit(1)
 
-
-file_format = {
-    ip: None,
-    minus: None,
-    date: None,
-    time: None,
-    method: None,
-    file: None,
-    http: None,
-    code: None,
-    size: None
-}
 
 signal(SIGINT, handler)
 
 for lines in sys.stdin:
     line = lines.split(' ')
-    for c, k in enumerate(file_format.keys()):
-        file_format[k] = line[c]
-
-    val = []
-    for k, v in file_format.items():
-        val.append(k(v))
-    check = val[:]
-
-    if False not in check:
+    minus = line[1]
+    method = line[4][1:]
+    http = line[6].split('/')[0]
+    code = line[7]
+    size = line[-1].split('\\')[0]
+    if minus == '-' and code in status_code and \
+            http == 'HTTP' and method == 'GET':
         if on_ten == 10:
-            line_check()
+            display_metrics()
             on_ten = 0
 
-        status = file_format[code]
-        status_code[status] += 1
-        fsize = int(file_format[size])
-        file_size += fsize
+        status_code[code] += 1
+        file_size += int(size)
         on_ten += 1
