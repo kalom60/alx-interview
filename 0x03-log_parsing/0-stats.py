@@ -1,8 +1,5 @@
 #!/usr/bin/python3
 """a script that reads stdin line by line and computes metrics"""
-import sys
-import re
-from datetime import datetime
 
 
 status_code = {
@@ -26,10 +23,13 @@ on_ten = 0
 
 def check_ip(ip):
     """validate ip address"""
-    pattern = r"^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.)"\
-        r"{3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
-    if (re.search(pattern, ip)):
-        return True
+    ip = ip.split('.')
+    if len(ip) == 4:
+        for addy in ip:
+            if addy.isdigit() and \
+                    (int(addy) < 0 and int(addy) > 255):
+                return True
+            return False
     return False
 
 
@@ -42,7 +42,7 @@ def display_metrics():
 
 
 try:
-    for lines in sys.stdin:
+    for lines in input():
         line = lines.split(' ')
         ip = line[0]
         dates = line[2][1:] + line[3][:-1]
@@ -62,6 +62,5 @@ try:
             on_ten += 1
 except KeyboardInterrupt:
     display_metrics()
-    sys.exit(1)
 else:
     display_metrics()
