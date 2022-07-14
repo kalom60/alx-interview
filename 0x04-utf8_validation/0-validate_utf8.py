@@ -22,4 +22,4 @@ def validUTF8(data):
             if (i >> 6) != 0b10:
                 return False
             num -= 1
-    return True
+    return num == 0
