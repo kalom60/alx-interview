@@ -7,19 +7,26 @@ def validUTF8(data):
     return True if data is valid UTF-8 encoding
     else return False
     """
-    num = 0
-    for i in data:
-        if num == 0:
-            if (i >> 5) == 0b110:
-                num = 1
-            elif (i >> 4) == 0b1110:
-                num = 2
-            elif (i >> 3) == 0b11110:
-                num = 3
-            elif (i >> 7):
+    count = 0
+    if len(data) == 0:
+        return True
+
+    for c in data:
+        bit = 1 << 7
+        if count != 0:
+            if not (c & 1 << 7 and not (c & 1 << 6)):
                 return False
         else:
-            if (i >> 6) != 0b10:
+            while (bit & c):
+                count += 1
+                bit = bit >> 1
+
+            if count == 0:
+                continue
+            if count == 1 or count > 4:
                 return False
-            num -= 1
-    return num == 0
+        count -= 1
+
+    if count == 0:
+        return True
+    return False
