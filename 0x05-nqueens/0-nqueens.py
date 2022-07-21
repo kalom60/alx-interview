@@ -37,6 +37,9 @@ def nqueens(n):
     backtrack(0)
 
 
+if len(sys.argv) != 2:
+    print('Usage: nqueens N')
+    sys.exit(1)
 size = sys.argv[1]
 try:
     nqueens(int(size))
