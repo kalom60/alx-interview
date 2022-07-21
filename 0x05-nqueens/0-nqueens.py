@@ -7,7 +7,7 @@ def nqueens(n):
     """find the nqueens for the size of n"""
     if n < 4:
         print('N must be at least 4')
-        return
+        sys.exit(1)
     column = []
     diagX = []
     diagY = []
@@ -42,3 +42,4 @@ try:
     nqueens(int(size))
 except ValueError:
     print('N must be a number')
+    sys.exit(1)
