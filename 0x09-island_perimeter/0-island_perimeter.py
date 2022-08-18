@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""""""
+"""Island Perimeter module"""
 
 
 def island_perimeter(grid):
-    """"""
+    """return perimeter of island"""
     visited = 0
     for i in range(len(grid)):
         for j in range(len(grid[i])):
